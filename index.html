@@ -135,7 +135,31 @@
   .req-form h3{font-size:18px;margin-bottom:2px}
   .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
   @media (max-width:520px){.grid2{grid-template-columns:1fr}}
-  .in label{display:block;font-size:14px;font-weight:600;margin-bottom:6px}
+  .in label,.in .lbl-l{display:block;font-size:14px;font-weight:600;margin-bottom:6px}
+
+  /* booking picker */
+  .book{display:grid;gap:10px}
+  .book .days{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 6px;scrollbar-width:thin;-webkit-overflow-scrolling:touch}
+  .book .day,.book .slot{border:1.5px solid var(--line);border-radius:var(--radius-s);background:#fff;padding:8px 10px;line-height:1.2;cursor:pointer;color:var(--ink);font:inherit;text-align:center}
+  .book .day{flex:0 0 auto;min-width:66px}
+  .book .day small,.book .slot small{display:block;font-size:12px;color:var(--ink-2);margin-top:2px}
+  .book .day b{display:block;font-size:19px;font-weight:700;letter-spacing:-0.02em}
+  .book .day span{font-size:12px;color:var(--ink-2)}
+  .book .day[aria-pressed=true],.book .slot[aria-pressed=true]{border-color:var(--green-800);background:var(--leaf-soft);box-shadow:inset 0 0 0 1px var(--green-800)}
+  .book .slots{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .book .slot{font-weight:600;font-size:15px}
+  .book .picked{font-size:14px;color:var(--ink-2);margin:0}
+  .book .picked b{color:var(--ink)}
+  @media (max-width:420px){.book .slots{grid-template-columns:1fr}}
+
+  .booksec{background:var(--white)}
+  .booksec .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,560px);gap:clamp(32px,5vw,72px);align-items:start}
+  .bookform{background:var(--paper);border:1.5px solid var(--line);border-radius:var(--radius-l);padding:clamp(20px,3vw,28px);display:grid;gap:14px}
+  .bookform h3{font-size:18px}
+  .book-points{list-style:none;margin:24px 0 0;padding:0;display:grid;gap:12px;color:var(--ink-2)}
+  .book-points li{display:flex;gap:12px;align-items:flex-start}
+  .book-points li::before{content:"";flex:0 0 18px;height:2px;background:var(--snor);margin-top:13px}
+  @media (max-width:900px){.booksec .wrap{grid-template-columns:1fr}}
   .in input,.in select,.in textarea{width:100%;border:1.5px solid var(--line);border-radius:var(--radius-s);padding:11px 12px;font:inherit;background:#fff;color:var(--ink)}
   .in input[type=file]{padding:8px;font-size:14px}
   .in small{display:block;color:var(--ink-2);font-size:13px;margin-top:5px}
@@ -228,6 +252,7 @@
     <ul>
       <li><a href="#priser">Priser</a></li>
       <li><a href="#saadan">Sådan foregår det</a></li>
+      <li><a href="#book">Book tid</a></li>
       <li><a href="#anmeldelser">Anmeldelser</a></li>
       <li><a href="#faq">Spørgsmål</a></li>
       <li><a href="#kontakt">Kontakt</a></li>
@@ -289,17 +314,8 @@
           </div>
           <div class="in"><label for="address">Adresse</label><input id="address" name="address" autocomplete="street-address" placeholder="Vej, nr. og by" required></div>
           <div class="in"><label for="email">E-mail</label><input id="email" name="email" type="email" autocomplete="email" required><small>Du får en kopi af dit estimat på mail.</small></div>
-          <div class="grid2">
-            <div class="in"><label for="when">Hvornår passer det?</label>
-              <select id="when" name="when">
-                <option>Hurtigst muligt</option>
-                <option>Inden for 2 uger</option>
-                <option>Inden for en måned</option>
-                <option>Jeg er fleksibel</option>
-              </select>
-            </div>
-            <div class="in"><label for="photo">Billede af hækken (valgfrit)</label><input id="photo" name="photo" type="file" accept="image/*" multiple><small>Så kan vi give en fast pris uden at komme forbi først.</small></div>
-          </div>
+          <div class="in"><span class="lbl-l">Hvornår passer det?</span><div class="book" data-book="calc"></div></div>
+          <div class="in"><label for="photo">Billede af hækken (valgfrit)</label><input id="photo" name="photo" type="file" accept="image/*" multiple><small>Så kan vi give en fast pris uden at komme forbi først.</small></div>
           <div class="in"><label for="msg">Er der noget, vi skal vide?</label><textarea id="msg" name="msg" rows="2" placeholder="Fx svær adgang, hund i haven, eller at hækken er meget tilgroet"></textarea></div>
           <div class="hp" aria-hidden="true"><label>Lad feltet stå tomt<input name="website" tabindex="-1" autocomplete="off"></label></div>
           <button type="submit" class="btn btn-dark btn-block">Send forespørgsel</button>
@@ -350,6 +366,37 @@
       <li><h3>Tobias ringer tilbage</h3><p>Inden for én hverdag ringer vi og aftaler en dato. Er hækken usædvanlig, får du en fast pris ud fra dit billede eller et kort besøg.</p></li>
       <li><h3>Vi klipper og rydder op</h3><p>Vi kommer til tiden, klipper efter snor, river sammen og kører afklippet væk, hvis du har valgt det. Du betaler, når du er tilfreds.</p></li>
     </ol>
+  </div>
+</section>
+
+<section class="booksec" id="book">
+  <div class="wrap">
+    <div>
+      <h2>Book en tid</h2>
+      <p class="lede" style="margin-top:14px">Kender du allerede prisen, eller skal hækken bare klippes som sidste år? Vælg en dag, så bekræfter Tobias tiden på sms.</p>
+      <ul class="book-points">
+        <li>Vi klipper på hverdage mellem 8 og 16.</li>
+        <li>Tiden er først endelig, når Tobias har bekræftet den. Det sker samme dag.</li>
+        <li>Du behøver ikke være hjemme, hvis vi kan komme ind i haven.</li>
+      </ul>
+    </div>
+    <form class="bookform" id="bookForm" novalidate>
+      <h3>Vælg dag og tidspunkt</h3>
+      <div class="book" data-book="solo"></div>
+      <div class="grid2">
+        <div class="in"><label for="bname">Navn</label><input id="bname" name="name" autocomplete="name" required></div>
+        <div class="in"><label for="bphone">Telefon</label><input id="bphone" name="phone" type="tel" autocomplete="tel" required></div>
+      </div>
+      <div class="in"><label for="baddress">Adresse</label><input id="baddress" name="address" autocomplete="street-address" placeholder="Vej, nr. og by" required></div>
+      <div class="in"><label for="bmsg">Hvad skal klippes?</label><textarea id="bmsg" name="msg" rows="2" placeholder="Fx samme hæk som sidste år, cirka 30 meter, begge sider"></textarea></div>
+      <div class="hp" aria-hidden="true"><label>Lad feltet stå tomt<input name="website" tabindex="-1" autocomplete="off"></label></div>
+      <button type="submit" class="btn btn-dark btn-block">Book tiden</button>
+      <p style="font-size:13px;color:var(--ink-2);margin:0">Uforpligtende indtil Tobias har bekræftet. Prisen følger prislisten ovenfor.</p>
+      <div class="sent" id="bookSent" role="status" style="margin-top:0">
+        <h3>Tak, din booking er sendt</h3>
+        <p id="bookSentText"></p>
+      </div>
+    </form>
   </div>
 </section>
 
@@ -516,21 +563,88 @@
   });
   document.getElementById('waste').addEventListener('change', total);
 
+  // Booking picker: the next 12 weekdays and three time options.
+  // The real site reads free days from the booking plugin; here every weekday is open.
+  var SLOTS = [
+    {id:'am',  label:'Formiddag',   hint:'8 til 12'},
+    {id:'pm',  label:'Eftermiddag', hint:'12 til 16'},
+    {id:'any', label:'Hele dagen',  hint:'Tobias vælger'}
+  ];
+  var dayShort = new Intl.DateTimeFormat('da-DK', {weekday:'short'});
+  var monShort = new Intl.DateTimeFormat('da-DK', {month:'short'});
+  var dayLong  = new Intl.DateTimeFormat('da-DK', {weekday:'long', day:'numeric', month:'long'});
+  function iso(d){ return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); }
+  function weekdays(n){
+    var out = [], d = new Date(); d.setHours(0,0,0,0);
+    while (out.length < n) { d.setDate(d.getDate()+1); if (d.getDay() !== 0 && d.getDay() !== 6) out.push(new Date(d)); }
+    return out;
+  }
+  function makeBooking(root){
+    var state = {date:null, slot:null};
+    root.innerHTML = '<div class="days" role="group" aria-label="Vælg dag"></div><div class="slots" role="group" aria-label="Vælg tidspunkt"></div><p class="picked"></p><input type="hidden" name="date"><input type="hidden" name="slot">';
+    var days = root.querySelector('.days'), slots = root.querySelector('.slots'), picked = root.querySelector('.picked');
+    weekdays(12).forEach(function(d){
+      var b = document.createElement('button'); b.type = 'button'; b.className = 'day'; b.setAttribute('aria-pressed','false');
+      b.dataset.iso = iso(d);
+      b.innerHTML = '<span>' + dayShort.format(d).replace('.','') + '</span><b>' + d.getDate() + '</b><small>' + monShort.format(d).replace('.','') + '</small>';
+      b.addEventListener('click', function(){ state.date = (state.date === d) ? null : d; paint(); });
+      days.appendChild(b);
+    });
+    SLOTS.forEach(function(s){
+      var b = document.createElement('button'); b.type = 'button'; b.className = 'slot'; b.dataset.slot = s.id; b.setAttribute('aria-pressed','false');
+      b.innerHTML = s.label + '<small>' + s.hint + '</small>';
+      b.addEventListener('click', function(){ state.slot = (state.slot === s.id) ? null : s.id; paint(); });
+      slots.appendChild(b);
+    });
+    function paint(){
+      days.querySelectorAll('.day').forEach(function(b){ b.setAttribute('aria-pressed', String(!!state.date && b.dataset.iso === iso(state.date))); });
+      slots.querySelectorAll('.slot').forEach(function(b){ b.setAttribute('aria-pressed', String(b.dataset.slot === state.slot)); });
+      root.querySelector('[name=date]').value = state.date ? iso(state.date) : '';
+      root.querySelector('[name=slot]').value = state.slot || '';
+      picked.innerHTML = state.date ? 'Valgt: <b>' + text() + '</b>' : 'Ingen dag valgt endnu. Du kan også lade os foreslå en.';
+    }
+    function text(){
+      if (!state.date) return 'hurtigst muligt';
+      var s = SLOTS.filter(function(x){ return x.id === state.slot; })[0];
+      return dayLong.format(state.date) + (s && s.id !== 'any' ? ', ' + s.label.toLowerCase() : '');
+    }
+    paint();
+    root.getText = text;
+    return root;
+  }
+  var bookings = {};
+  document.querySelectorAll('[data-book]').forEach(function(el){ bookings[el.dataset.book] = makeBooking(el); });
+
+  function validate(f, fields){
+    if (f.website.value) return false; // honeypot
+    var ok = true;
+    fields.forEach(function(n){ var el = f[n]; if (!el.value.trim()) { ok = false; el.setAttribute('aria-invalid','true'); el.style.borderColor = '#C0392B'; } else { el.removeAttribute('aria-invalid'); el.style.borderColor=''; } });
+    if (!ok) f.querySelector('[aria-invalid]').focus();
+    return ok;
+  }
+
   // Demo submit: the real site posts to WordPress, which recalculates the price,
   // emails Tobias from a fixed address, and sends the customer a copy.
   document.getElementById('beregn').addEventListener('submit', function(e){
     e.preventDefault();
     var f = e.target;
-    if (f.website.value) return; // honeypot
-    var req = ['name','phone','address','email'], ok = true;
-    req.forEach(function(n){ var el = f[n]; if (!el.value.trim()) { ok = false; el.setAttribute('aria-invalid','true'); el.style.borderColor = '#C0392B'; } else { el.removeAttribute('aria-invalid'); el.style.borderColor=''; } });
-    if (!ok) { f.querySelector('[aria-invalid]').focus(); return; }
+    if (!validate(f, ['name','phone','address','email'])) return;
     var sum = total();
-    document.getElementById('sentText').textContent = 'Vi har sendt en kopi af dit estimat på ' + fmt(sum) + ' til ' + f.email.value.trim() + '. Tobias ringer til dig på ' + f.phone.value.trim() + ' inden for én hverdag.';
+    document.getElementById('sentText').textContent = 'Vi har sendt en kopi af dit estimat på ' + fmt(sum) + ' til ' + f.email.value.trim() + '. Ønsket tid: ' + bookings.calc.getText() + '. Tobias ringer til dig på ' + f.phone.value.trim() + ' inden for én hverdag.';
     document.getElementById('req').removeAttribute('open');
     document.getElementById('req').style.display = 'none';
     document.getElementById('sent').classList.add('show');
     document.getElementById('sent').scrollIntoView({block:'nearest', behavior:'smooth'});
+  });
+
+  document.getElementById('bookForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var f = e.target;
+    if (!validate(f, ['name','phone','address'])) return;
+    document.getElementById('bookSentText').textContent = 'Ønsket tid: ' + bookings.solo.getText() + '. Tobias bekræfter på sms til ' + f.phone.value.trim() + ' i dag eller i morgen. Adressen er ' + f.address.value.trim() + '.';
+    Array.prototype.forEach.call(f.querySelectorAll('.in, .book, .grid2, h3, button, p:not(#bookSentText)'), function(el){ if (!el.closest('.sent')) el.style.display = 'none'; });
+    document.getElementById('bookSent').classList.add('show');
+    document.getElementById('bookSent').scrollIntoView({block:'nearest', behavior:'smooth'});
   });
 
   hedges.push({len:25, height:'under', sides:1});
