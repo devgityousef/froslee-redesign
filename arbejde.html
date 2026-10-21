@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vores arbejde · Froslee Haveservice</title>
+<meta name="description" content="Før og efter billeder af hække, vi har klippet i Aalborg og omegn. Træk i billedet og se forskellen.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="index.html"><img src="img/logo-dark.png" alt="Froslee Haveservice"></a>
+    <ul>
+      <li><a href="index.html#priser">Priser</a></li>
+      <li><a href="index.html#book">Book tid</a></li>
+      <li><a href="arbejde.html" aria-current="page">Vores arbejde</a></li>
+      <li><a href="om-os.html">Om os</a></li>
+      <li><a href="index.html#kontakt">Kontakt</a></li>
+    </ul>
+    <a class="btn btn-primary" href="index.html#beregn">Beregn din pris</a>
+  </div>
+</header>
+
+<main>
+<section class="page-hero">
+  <div class="wrap" style="grid-template-columns:1fr">
+    <div>
+      <h1>Før og efter</h1>
+      <p class="lede">Træk i det orange håndtag og se forskellen. Alle billeder er fra rigtige opgaver i Aalborg og omegn, taget samme dag.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="work">
+      <figure>
+        <div class="compare" style="--pos:50%">
+          <img class="after" src="img/haek1-efter.jpg" alt="Hækken efter klipning: lige top og glatte sider">
+          <img class="before" src="img/haek1-foer.jpg" alt="Hækken før klipning: bred og uregelmæssig">
+          <span class="tag l">Før</span><span class="tag r">Efter</span>
+          <div class="handle"></div>
+          <input type="range" min="0" max="100" value="50" aria-label="Træk for at sammenligne før og efter">
+        </div>
+        <figcaption><b>Tilgroet hæk, klippet på begge sider og toppen</b>Hækken havde fået lov at vokse en hel sæson. Klippet tilbage til rette linjer, afklip kørt væk.</figcaption>
+      </figure>
+      <figure>
+        <div class="compare" style="--pos:50%">
+          <img class="after" src="img/haek2-efter.jpg" alt="Høj hæk efter klipning med skarp overkant">
+          <img class="before" src="img/haek2-foer.jpg" alt="Høj hæk før klipning">
+          <span class="tag l">Før</span><span class="tag r">Efter</span>
+          <div class="handle"></div>
+          <input type="range" min="0" max="100" value="50" aria-label="Træk for at sammenligne før og efter">
+        </div>
+        <figcaption><b>Høj hæk, klippet fra platform</b>Over 2 meter, så toppen er taget fra platform for at få en lige kant hele vejen.</figcaption>
+      </figure>
+    </div>
+    <p class="lede" style="margin-top:40px">Vi lægger nye opgaver op, efterhånden som sæsonen skrider frem. Vil du se en hæk, der ligner din? Ring, så sender Tobias et billede.</p>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="wrap">
+    <div>
+      <h2>Vil du have samme resultat?</h2>
+      <p>Beregn prisen på din hæk på under et minut. Uforpligtende.</p>
+    </div>
+    <a class="btn btn-primary" href="index.html#beregn">Beregn din pris</a>
+  </div>
+</section>
+</main>
+
+<footer class="foot-min">
+  <div class="wrap">
+    <div><span>Ring på hverdage 7 til 17</span><a href="tel:+4529744144">29 74 41 44</a></div>
+    <div><span>Skriv til</span><a href="mailto:tobias@froslee.dk">tobias@froslee.dk</a></div>
+    <div><span>Froslee Haveservice · CVR 45108074</span>Sneppevej 27, 9270 Klarup</div>
+  </div>
+</footer>
+
+<div class="sticky-cta">
+  <a class="btn btn-ghost" href="tel:+4529744144">Ring</a>
+  <a class="btn btn-primary" href="index.html#beregn">Beregn din pris</a>
+</div>
+
+<script>
+  document.querySelectorAll('.compare').forEach(function(c){
+    var r = c.querySelector('input');
+    r.addEventListener('input', function(){ c.style.setProperty('--pos', r.value + '%'); });
+  });
+</script>
+</body>
+</html>
