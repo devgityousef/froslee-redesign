@@ -1,0 +1,541 @@
+<!doctype html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Froslee Haveservice</title>
+<meta name="description" content="Hækkeklipning i Aalborg, Klarup og omegn. Beregn prisen på din hæk med det samme og send en forespørgsel.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green-900:#163A22;
+    --green-800:#1F4D2B;
+    --green-700:#2B6338;
+    --leaf:#DCE8C8;
+    --leaf-soft:#EEF3E4;
+    --paper:#F7F8F4;
+    --white:#FFFFFF;
+    --ink:#17241B;
+    --ink-2:#4A5A4F;
+    --line:#D9DED3;
+    --snor:#E8702A;
+    --snor-dark:#C85A1A;
+    --radius-l:20px;
+    --radius-m:12px;
+    --radius-s:8px;
+    --max:1120px;
+    --gutter:clamp(16px, 4vw, 40px);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto} *{transition:none!important;animation:none!important}}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;
+    font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{margin:0;font-weight:700;letter-spacing:-0.015em;line-height:1.08;font-variation-settings:"opsz" 96}
+  h1{font-size:clamp(38px,6vw,66px);font-weight:800;letter-spacing:-0.03em}
+  h2{font-size:clamp(28px,4vw,42px)}
+  h3{font-size:20px;line-height:1.3}
+  p{margin:0}
+  a{color:inherit}
+  button{font:inherit;cursor:pointer}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 var(--gutter)}
+  .lede{font-size:clamp(17px,2vw,20px);color:var(--ink-2);max-width:56ch}
+  :focus-visible{outline:3px solid var(--snor);outline-offset:3px;border-radius:4px}
+  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+  /* the guide line: the one decorative device */
+  .snor{position:relative;height:2px;background:var(--snor);margin:0 auto;max-width:var(--max)}
+  .snor::before,.snor::after{content:"";position:absolute;top:-5px;width:12px;height:12px;border-radius:50%;background:var(--snor)}
+  .snor::before{left:0}.snor::after{right:0}
+
+  /* header */
+  header{position:sticky;top:0;z-index:20;background:rgba(247,248,244,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:68px;gap:16px}
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:700;font-size:18px;letter-spacing:-0.01em;white-space:nowrap}
+  .brand i{width:28px;height:28px;border-radius:7px 7px 2px 2px;background:var(--green-800);position:relative;display:inline-block}
+  .brand i::after{content:"";position:absolute;left:4px;right:4px;top:9px;height:2px;background:var(--snor)}
+  .nav ul{display:flex;gap:26px;list-style:none;margin:0;padding:0}
+  .nav ul a{text-decoration:none;color:var(--ink-2);font-weight:500}
+  .nav ul a:hover{color:var(--ink)}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;padding:12px 20px;font-weight:600;text-decoration:none;border:1.5px solid transparent;white-space:nowrap}
+  .btn-primary{background:var(--snor);color:#fff}
+  .btn-primary:hover{background:var(--snor-dark)}
+  .btn-ghost{border-color:var(--green-800);color:var(--green-800);background:transparent}
+  .btn-ghost:hover{background:var(--leaf-soft)}
+  .btn-dark{background:var(--green-800);color:#fff}
+  .btn-dark:hover{background:var(--green-900)}
+  .btn-block{width:100%;padding:15px 20px;font-size:17px}
+  @media (max-width:1000px){.nav ul{display:none}}
+  @media (max-width:600px){.nav .btn{display:none}}
+
+  /* hero */
+  .hero{background:var(--green-800);color:#fff;padding:clamp(40px,7vw,88px) 0 clamp(48px,7vw,96px)}
+  .hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,520px);gap:clamp(32px,5vw,72px);align-items:start}
+  .hero .lede{color:#D6E3CF}
+  .hero-kicker{color:#B9D1A9;font-weight:500;margin-bottom:18px}
+  .hero-points{list-style:none;margin:32px 0 0;padding:0;display:grid;gap:12px;color:#E8F0E1}
+  .hero-points li{display:flex;gap:12px;align-items:flex-start}
+  .hero-points li::before{content:"";flex:0 0 18px;height:2px;background:var(--snor);margin-top:13px}
+  .hero-call{margin-top:36px;display:flex;gap:14px;flex-wrap:wrap;align-items:center;color:#D6E3CF}
+  .hero-call a.tel{color:#fff;font-weight:700;text-decoration:none;font-size:20px;letter-spacing:-0.01em}
+  @media (max-width:900px){.hero .wrap{grid-template-columns:1fr}}
+
+  /* calculator */
+  .calc{background:var(--white);color:var(--ink);border-radius:var(--radius-l);padding:clamp(20px,3vw,32px);box-shadow:0 24px 60px rgba(10,30,15,.25)}
+  .calc-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:18px}
+  .calc-head h2{font-size:24px}
+  .calc-head span{color:var(--ink-2);font-size:15px}
+  .hedge{border:1.5px solid var(--line);border-radius:var(--radius-m);padding:18px;margin-bottom:12px;background:var(--paper)}
+  .hedge-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+  .hedge-top strong{font-size:17px}
+  .hedge-top button{background:none;border:0;color:var(--ink-2);font-size:14px;padding:4px 6px;text-decoration:underline}
+  .hedge-top button:disabled{visibility:hidden}
+  .field{margin-bottom:14px}
+  .field:last-child{margin-bottom:0}
+  .field>label,.field>.lbl{display:block;font-weight:600;font-size:15px;margin-bottom:8px}
+  .len{display:grid;grid-template-columns:1fr 92px;gap:14px;align-items:center}
+  input[type=range]{width:100%;accent-color:var(--green-800);height:32px;margin:0}
+  .num{display:flex;align-items:center;border:1.5px solid var(--line);border-radius:var(--radius-s);background:#fff;overflow:hidden}
+  .num input{width:100%;border:0;padding:10px 0 10px 12px;font:inherit;font-weight:600;font-size:17px;min-width:0;background:transparent}
+  .num input:focus{outline:none}
+  .num span{padding:0 10px 0 2px;color:var(--ink-2);font-size:15px}
+  .seg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .seg label{position:relative}
+  .seg input{position:absolute;opacity:0;inset:0}
+  .seg span{display:flex;flex-direction:column;align-items:flex-start;border:1.5px solid var(--line);border-radius:var(--radius-s);padding:10px 12px;background:#fff;line-height:1.25}
+  .seg span small{color:var(--ink-2);font-size:13px;margin-top:3px}
+  .seg input:checked+span{border-color:var(--green-800);background:var(--leaf-soft);box-shadow:inset 0 0 0 1px var(--green-800)}
+  .seg input:focus-visible+span{outline:3px solid var(--snor);outline-offset:2px}
+  .hedge-sum{display:flex;justify-content:space-between;border-top:1px dashed var(--line);padding-top:12px;margin-top:16px;font-size:15px;color:var(--ink-2)}
+  .hedge-sum b{color:var(--ink);font-size:17px}
+  .add{background:none;border:1.5px dashed var(--green-800);color:var(--green-800);border-radius:var(--radius-s);padding:11px;width:100%;font-weight:600;margin-bottom:14px}
+  .add:hover{background:var(--leaf-soft)}
+  .check{display:flex;align-items:center;gap:12px;border:1.5px solid var(--line);border-radius:var(--radius-s);padding:12px 14px;background:#fff;cursor:pointer}
+  .check input{width:20px;height:20px;accent-color:var(--green-800);margin:0}
+  .check .grow{flex:1}
+  .check small{display:block;color:var(--ink-2);font-size:13px}
+  .total{margin-top:16px;background:var(--green-800);color:#fff;border-radius:var(--radius-m);padding:18px 20px}
+  .total-row{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  .total-row .lbl{font-size:15px;color:#C9DBBE}
+  .total-row .amt{font-size:clamp(30px,4vw,38px);font-weight:800;letter-spacing:-0.03em;line-height:1}
+  .total ul{list-style:none;margin:12px 0 0;padding:12px 0 0;border-top:1px solid rgba(255,255,255,.18);display:grid;gap:4px;font-size:14px;color:#D6E3CF}
+  .total ul li{display:flex;justify-content:space-between;gap:12px}
+  .total ul li.note{color:#F2B38C;display:block}
+  .total .fine{font-size:13px;color:#B9D1A9;margin-top:12px}
+  details.req{margin-top:14px}
+  details.req summary{list-style:none;cursor:pointer}
+  details.req summary::-webkit-details-marker{display:none}
+  details.req[open] summary .btn{display:none}
+  .req-form{margin-top:14px;display:grid;gap:12px}
+  .req-form h3{font-size:18px;margin-bottom:2px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media (max-width:520px){.grid2{grid-template-columns:1fr}}
+  .in label{display:block;font-size:14px;font-weight:600;margin-bottom:6px}
+  .in input,.in select,.in textarea{width:100%;border:1.5px solid var(--line);border-radius:var(--radius-s);padding:11px 12px;font:inherit;background:#fff;color:var(--ink)}
+  .in input[type=file]{padding:8px;font-size:14px}
+  .in small{display:block;color:var(--ink-2);font-size:13px;margin-top:5px}
+  .hp{position:absolute;left:-9999px;top:-9999px}
+  .sent{display:none;border:1.5px solid var(--green-700);background:var(--leaf-soft);border-radius:var(--radius-m);padding:18px;margin-top:14px}
+  .sent.show{display:block}
+  .sent h3{margin-bottom:6px}
+  .sent p{color:var(--ink-2);font-size:15px}
+
+  /* sections */
+  section{padding:clamp(56px,8vw,104px) 0}
+  .sec-head{max-width:62ch;margin-bottom:clamp(28px,4vw,44px)}
+  .sec-head p{margin-top:12px}
+
+  .prices{background:var(--white)}
+  .price-table{width:100%;border-collapse:collapse;max-width:720px}
+  .price-table th,.price-table td{text-align:left;padding:14px 0;border-bottom:1px solid var(--line);vertical-align:top}
+  .price-table th{font-weight:600;font-size:15px;color:var(--ink-2)}
+  .price-table td:last-child,.price-table th:last-child{text-align:right;white-space:nowrap}
+  .price-table td b{font-size:19px;font-weight:700}
+  .price-table td small{display:block;color:var(--ink-2);font-size:14px}
+  .incl{margin-top:28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px 32px;max-width:720px}
+  .incl div{padding-left:18px;position:relative;color:var(--ink-2);font-size:15px}
+  .incl div::before{content:"";position:absolute;left:0;top:11px;width:10px;height:2px;background:var(--snor)}
+  .incl div b{display:block;color:var(--ink);font-size:16px}
+
+  .steps ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:32px;counter-reset:s}
+  .steps li{counter-increment:s;border-top:2px solid var(--green-800);padding-top:18px}
+  .steps li::before{content:counter(s);display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--green-800);color:#fff;font-weight:700;font-size:15px;margin-bottom:14px}
+  .steps li p{color:var(--ink-2);margin-top:8px;font-size:16px}
+  @media (max-width:760px){.steps ol{grid-template-columns:1fr;gap:24px}}
+
+  .reviews{background:var(--leaf)}
+  .rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .rev{background:var(--white);border-radius:var(--radius-m);padding:24px;display:flex;flex-direction:column;gap:14px}
+  .rev q{quotes:"“" "”";font-size:17px;line-height:1.5}
+  .rev q::before{color:var(--snor);font-weight:800}
+  .rev footer{margin-top:auto;font-size:15px;color:var(--ink-2)}
+  .rev footer b{color:var(--ink);display:block}
+  .stars{color:var(--snor);letter-spacing:2px;font-size:15px}
+  @media (max-width:860px){.rev-grid{grid-template-columns:1fr}}
+
+  .faq-list{max-width:760px}
+  .faq-list details{border-top:1px solid var(--line)}
+  .faq-list details:last-child{border-bottom:1px solid var(--line)}
+  .faq-list summary{cursor:pointer;padding:18px 40px 18px 0;font-weight:600;font-size:18px;list-style:none;position:relative}
+  .faq-list summary::-webkit-details-marker{display:none}
+  .faq-list summary::after{content:"+";position:absolute;right:4px;top:14px;font-size:26px;font-weight:400;color:var(--green-800)}
+  .faq-list details[open] summary::after{content:"–"}
+  .faq-list details p{padding:0 0 20px;color:var(--ink-2);max-width:62ch}
+
+  .about{background:var(--white)}
+  .about .wrap{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:clamp(28px,5vw,64px);align-items:center}
+  .portrait{aspect-ratio:4/5;border-radius:var(--radius-l);background:linear-gradient(160deg,var(--green-700),var(--green-900));position:relative;overflow:hidden}
+  .portrait::after{content:"Foto af Tobias";position:absolute;inset:auto 16px 16px;color:#B9D1A9;font-size:14px}
+  .portrait::before{content:"";position:absolute;left:10%;right:10%;top:52%;height:2px;background:var(--snor)}
+  .about-facts{display:flex;gap:32px;margin-top:24px;flex-wrap:wrap}
+  .about-facts div b{display:block;font-size:30px;font-weight:800;letter-spacing:-0.03em;line-height:1}
+  .about-facts div span{font-size:14px;color:var(--ink-2)}
+  @media (max-width:760px){.about .wrap{grid-template-columns:1fr}.portrait{max-width:260px}}
+
+  .contact{background:var(--green-900);color:#fff}
+  .contact .wrap{display:grid;grid-template-columns:1fr 1fr;gap:48px}
+  .contact h2{color:#fff}
+  .contact p{color:#C9DBBE}
+  .c-list{list-style:none;margin:28px 0 0;padding:0;display:grid;gap:18px}
+  .c-list span{display:block;font-size:14px;color:#B9D1A9}
+  .c-list a{color:#fff;text-decoration:none;font-weight:700;font-size:20px;letter-spacing:-0.01em}
+  .c-list a:hover{text-decoration:underline;text-decoration-color:var(--snor)}
+  .areas{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+  .areas span{border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:5px 12px;font-size:14px;color:#E8F0E1}
+  .foot{border-top:1px solid rgba(255,255,255,.14);margin-top:48px;padding-top:24px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:14px;color:#B9D1A9}
+  .foot a{color:#B9D1A9}
+  @media (max-width:760px){.contact .wrap{grid-template-columns:1fr;gap:32px}}
+
+  /* mobile sticky action */
+  .sticky-cta{display:none}
+  @media (max-width:900px){
+    .sticky-cta{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:30;background:#fff;border-top:1px solid var(--line);padding:10px 16px calc(10px + env(safe-area-inset-bottom));gap:10px}
+    .sticky-cta .btn{flex:1;padding:13px 10px}
+    body{padding-bottom:72px}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#top"><i aria-hidden="true"></i>Froslee Haveservice</a>
+    <ul>
+      <li><a href="#priser">Priser</a></li>
+      <li><a href="#saadan">Sådan foregår det</a></li>
+      <li><a href="#anmeldelser">Anmeldelser</a></li>
+      <li><a href="#faq">Spørgsmål</a></li>
+      <li><a href="#kontakt">Kontakt</a></li>
+    </ul>
+    <a class="btn btn-primary" href="#beregn">Beregn din pris</a>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <p class="hero-kicker">Hækkeklipning i Aalborg, Klarup og omegn</p>
+      <h1>En skarp hæk.<br>Prisen med det samme.</h1>
+      <p class="lede" style="margin-top:20px">Vælg længde og højde, og se hvad din hæk koster. Send forespørgslen, så ringer Tobias tilbage inden for én hverdag med en dato.</p>
+      <ul class="hero-points">
+        <li>Fast pris pr. meter. Ingen overraskelser på regningen.</li>
+        <li>Oprydning er altid med. Vi kører afklippet væk, hvis du vil.</li>
+        <li>Lokalt enkeltmandsfirma med over 100 klippede hække.</li>
+      </ul>
+      <div class="hero-call">
+        <span>Vil du hellere ringe?</span>
+        <a class="tel" href="tel:+4529744144">29 74 41 44</a>
+      </div>
+    </div>
+
+    <form class="calc" id="beregn" novalidate>
+      <div class="calc-head">
+        <h2>Beregn prisen på din hæk</h2>
+        <span>tager under et minut</span>
+      </div>
+
+      <div id="hedges"></div>
+
+      <button type="button" class="add" id="addHedge">+ Tilføj endnu en hæk</button>
+
+      <label class="check">
+        <input type="checkbox" id="waste">
+        <span class="grow">Kør afklippet væk for mig<small>Vi tager alt haveaffald med os</small></span>
+        <b>+ 450 kr.</b>
+      </label>
+
+      <div class="total" aria-live="polite">
+        <div class="total-row">
+          <span class="lbl">Dit prisestimat</span>
+          <span class="amt" id="totalAmt">625 kr.</span>
+        </div>
+        <ul id="breakdown"></ul>
+        <p class="fine">Vejledende pris inkl. moms. Den endelige pris kan afvige, hvis hækken er meget tilgroet eller svær at komme til. Det afklarer vi, inden vi starter.</p>
+      </div>
+
+      <details class="req" id="req">
+        <summary><span class="btn btn-primary btn-block">Send forespørgsel på denne pris</span></summary>
+        <div class="req-form">
+          <h3>Hvor skal vi komme hen?</h3>
+          <div class="grid2">
+            <div class="in"><label for="name">Navn</label><input id="name" name="name" autocomplete="name" required></div>
+            <div class="in"><label for="phone">Telefon</label><input id="phone" name="phone" type="tel" autocomplete="tel" required></div>
+          </div>
+          <div class="in"><label for="address">Adresse</label><input id="address" name="address" autocomplete="street-address" placeholder="Vej, nr. og by" required></div>
+          <div class="in"><label for="email">E-mail</label><input id="email" name="email" type="email" autocomplete="email" required><small>Du får en kopi af dit estimat på mail.</small></div>
+          <div class="grid2">
+            <div class="in"><label for="when">Hvornår passer det?</label>
+              <select id="when" name="when">
+                <option>Hurtigst muligt</option>
+                <option>Inden for 2 uger</option>
+                <option>Inden for en måned</option>
+                <option>Jeg er fleksibel</option>
+              </select>
+            </div>
+            <div class="in"><label for="photo">Billede af hækken (valgfrit)</label><input id="photo" name="photo" type="file" accept="image/*" multiple><small>Så kan vi give en fast pris uden at komme forbi først.</small></div>
+          </div>
+          <div class="in"><label for="msg">Er der noget, vi skal vide?</label><textarea id="msg" name="msg" rows="2" placeholder="Fx svær adgang, hund i haven, eller at hækken er meget tilgroet"></textarea></div>
+          <div class="hp" aria-hidden="true"><label>Lad feltet stå tomt<input name="website" tabindex="-1" autocomplete="off"></label></div>
+          <button type="submit" class="btn btn-dark btn-block">Send forespørgsel</button>
+          <p style="font-size:13px;color:var(--ink-2)">Uforpligtende. Vi ringer tilbage inden for én hverdag.</p>
+        </div>
+      </details>
+
+      <div class="sent" id="sent" role="status">
+        <h3>Tak, din forespørgsel er sendt</h3>
+        <p id="sentText"></p>
+      </div>
+    </form>
+  </div>
+</section>
+
+<section class="prices" id="priser">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Sådan regner vi prisen</h2>
+      <p class="lede">Ingen skjulte tillæg. Prisen afhænger kun af hækkens længde, højde og om den skal klippes på én eller begge sider.</p>
+    </div>
+    <table class="price-table">
+      <thead><tr><th>Hæk</th><th>Én side</th><th>Begge sider</th></tr></thead>
+      <tbody>
+        <tr><td><b>Under 2 meter</b><small>Klippes fra jorden</small></td><td>25 kr. pr. meter</td><td>35 kr. pr. meter</td></tr>
+        <tr><td><b>Over 2 meter</b><small>Kræver stige eller platform</small></td><td>40 kr. pr. meter</td><td>60 kr. pr. meter</td></tr>
+        <tr><td><b>Bortkørsel af afklip</b><small>Valgfrit, uanset mængde</small></td><td colspan="2">450 kr. pr. besøg</td></tr>
+        <tr><td><b>Mindstepris</b><small>Dækker kørsel og opstart</small></td><td colspan="2">450 kr. pr. besøg</td></tr>
+      </tbody>
+    </table>
+    <div class="incl">
+      <div><b>Oprydning er med</b>Vi river sammen og samler afklippet i bunker, også uden bortkørsel.</div>
+      <div><b>Alle priser er inkl. moms</b>Du får en faktura med MobilePay eller bankoverførsel.</div>
+      <div><b>Store opgaver</b>Over 150 meter eller flere ejendomme: vi kommer forbi og giver en fast pris.</div>
+    </div>
+  </div>
+</section>
+
+<div class="snor" role="presentation"></div>
+
+<section class="steps" id="saadan">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Sådan foregår det</h2>
+    </div>
+    <ol>
+      <li><h3>Beregn og send</h3><p>Mål hækken groft op, vælg højde og sider, og send forespørgslen. Det tager under et minut, og du binder dig ikke til noget.</p></li>
+      <li><h3>Tobias ringer tilbage</h3><p>Inden for én hverdag ringer vi og aftaler en dato. Er hækken usædvanlig, får du en fast pris ud fra dit billede eller et kort besøg.</p></li>
+      <li><h3>Vi klipper og rydder op</h3><p>Vi kommer til tiden, klipper efter snor, river sammen og kører afklippet væk, hvis du har valgt det. Du betaler, når du er tilfreds.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="reviews" id="anmeldelser">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Det siger kunderne</h2>
+      <p class="lede">Anmeldelser fra Google og Trustpilot.</p>
+    </div>
+    <div class="rev-grid">
+      <article class="rev">
+        <div class="stars" aria-label="5 ud af 5 stjerner">★★★★★</div>
+        <q>De kom til tiden, gik direkte i gang og fik det gjort hurtigt men stadig mega pænt. Hækken står helt skarpt nu, man kan tydeligt se de ved hvad de laver.</q>
+        <footer><b>Sarah Mogensen</b>Aalborg</footer>
+      </article>
+      <article class="rev">
+        <div class="stars" aria-label="5 ud af 5 stjerner">★★★★★</div>
+        <q>Tobias var både punktlig, venlig og omhyggelig, og han efterlod haven pæn og ryddelig efter endt arbejde. Jeg vil uden tvivl benytte dem igen.</q>
+        <footer><b>Simon Storgaard</b>Klarup</footer>
+      </article>
+      <article class="rev">
+        <div class="stars" aria-label="5 ud af 5 stjerner">★★★★★</div>
+        <q>Hækken står nu skarpt og velplejet. Det er tydeligt, at der er lagt både tid og faglig stolthed i arbejdet.</q>
+        <footer><b>Daniel Rysgaard</b>Gistrup</footer>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Spørgsmål, vi ofte får i telefonen</h2>
+    </div>
+    <div class="faq-list">
+      <details><summary>Hvornår på året skal hækken klippes?</summary><p>De fleste hække klippes én gang i slutningen af juni og eventuelt igen i august eller september. Bøgehæk tåler fint en enkelt klipning i sommeren. Vi klipper fra april til oktober, og de bedste tider i kalenderen går først.</p></details>
+      <details><summary>Hvordan måler jeg min hæk?</summary><p>Gå langs hækken med almindelige skridt: ét skridt er cirka én meter. Et groft tal er nok. Vi måler præcist, når vi kommer, og prisen reguleres kun, hvis længden afviger meget.</p></details>
+      <details><summary>Hvad er forskellen på én side og begge sider?</summary><p>Står hækken i skel, klipper vi typisk kun din side og toppen. Står den frit, eller vil naboen gerne have sin side klippet samtidig, vælger du begge sider. Toppen er altid med.</p></details>
+      <details><summary>Tager I afklippet med?</summary><p>Ja, mod 450 kr. pr. besøg uanset mængde. Vælger du det fra, river vi stadig sammen og lægger afklippet i bunker, hvor du vil have det.</p></details>
+      <details><summary>Min hæk er meget tilgroet eller skal klippes kraftigt ned. Hvad koster det?</summary><p>En kraftig nedskæring tager længere tid end en almindelig klipning, så det giver vi en fast pris på. Send et billede med forespørgslen, så får du prisen, når vi ringer tilbage.</p></details>
+      <details><summary>Hvor kører I ud?</summary><p>Aalborg og en radius på cirka 25 km: Klarup, Gistrup, Storvorde, Vodskov, Nørresundby, Svenstrup, Gug og Hasseris. Bor du længere væk, så skriv til os alligevel.</p></details>
+      <details><summary>Skal jeg være hjemme?</summary><p>Nej. Hvis vi kan komme ind i haven, klarer vi det selv. Vi sender en besked, når vi er færdige, og fakturaen kommer på mail.</p></details>
+      <details><summary>Hvordan betaler jeg?</summary><p>Du får en faktura på mail efter arbejdet og betaler med MobilePay eller bankoverførsel inden for 8 dage.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="om">
+  <div class="wrap">
+    <div class="portrait" role="img" aria-label="Portræt af Tobias Froslee"></div>
+    <div>
+      <h2>Manden bag saksen</h2>
+      <p class="lede" style="margin-top:14px">Tobias Froslee startede Froslee Haveservice i Klarup og klipper selv hver eneste hæk. Det betyder, at den, du taler med i telefonen, også er den, der står i din have.</p>
+      <div class="about-facts">
+        <div><b>100+</b><span>klippede hække</span></div>
+        <div><b>5 år</b><span>med hæksaks og snor</span></div>
+        <div><b>1 hverdag</b><span>til du hører fra os</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="kontakt">
+  <div class="wrap">
+    <div>
+      <h2>Kontakt</h2>
+      <p class="lede" style="margin-top:12px">Den hurtigste vej til en pris er beregneren øverst. Har du et spørgsmål, så ring eller skriv.</p>
+      <ul class="c-list">
+        <li><span>Ring på hverdage 7 til 17</span><a href="tel:+4529744144">29 74 41 44</a></li>
+        <li><span>Skriv til</span><a href="mailto:tobias@froslee.dk">tobias@froslee.dk</a></li>
+        <li><span>Adresse</span><a href="https://maps.google.com/?q=Sneppevej+27,+9270+Klarup">Sneppevej 27, 9270 Klarup</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3 style="color:#fff">Vi kører til</h3>
+      <div class="areas">
+        <span>Aalborg</span><span>Klarup</span><span>Gistrup</span><span>Storvorde</span><span>Vodskov</span><span>Nørresundby</span><span>Svenstrup</span><span>Gug</span><span>Hasseris</span><span>Vejgaard</span>
+      </div>
+      <p style="margin-top:20px;font-size:15px">Froslee Haveservice · CVR 45108074</p>
+    </div>
+    <div class="foot" style="grid-column:1/-1">
+      <span>© 2026 Froslee Haveservice</span>
+      <span><a href="#">Privatlivspolitik</a> &nbsp;·&nbsp; <a href="#">Handelsbetingelser</a></span>
+    </div>
+  </div>
+</section>
+</main>
+
+<div class="sticky-cta">
+  <a class="btn btn-ghost" href="tel:+4529744144">Ring</a>
+  <a class="btn btn-primary" href="#beregn">Beregn din pris</a>
+</div>
+
+<script>
+(function(){
+  // Prices in kr. These would come from WordPress settings; the server must recalculate on submit.
+  var P = {under_1:25, under_2:35, over_1:40, over_2:60, waste:450, minimum:450, maxLen:300, bigJob:150};
+  var hedgesEl = document.getElementById('hedges');
+  var hedges = [];
+  var fmt = function(n){ return n.toLocaleString('da-DK') + ' kr.'; };
+
+  function render(){
+    hedgesEl.innerHTML = '';
+    hedges.forEach(function(h, i){
+      var el = document.createElement('div');
+      el.className = 'hedge';
+      el.innerHTML =
+        '<div class="hedge-top"><strong>Hæk ' + (i+1) + '</strong><button type="button" data-remove="'+i+'"' + (hedges.length<2?' disabled':'') + '>Fjern</button></div>' +
+        '<div class="field"><label for="len'+i+'">Hvor lang er hækken?</label>' +
+          '<div class="len"><input type="range" id="len'+i+'" min="1" max="'+P.maxLen+'" value="'+h.len+'" data-len="'+i+'">' +
+          '<div class="num"><input type="number" min="1" max="'+P.maxLen+'" value="'+h.len+'" data-lennum="'+i+'" aria-label="Længde i meter"><span>m</span></div></div></div>' +
+        '<div class="field"><span class="lbl">Hvor høj er den?</span><div class="seg">' +
+          '<label><input type="radio" name="h'+i+'" value="under" '+(h.height==='under'?'checked':'')+' data-h="'+i+'"><span>Under 2 meter<small>fra jorden</small></span></label>' +
+          '<label><input type="radio" name="h'+i+'" value="over" '+(h.height==='over'?'checked':'')+' data-h="'+i+'"><span>Over 2 meter<small>med stige</small></span></label></div></div>' +
+        '<div class="field"><span class="lbl">Hvilke sider?</span><div class="seg">' +
+          '<label><input type="radio" name="s'+i+'" value="1" '+(h.sides===1?'checked':'')+' data-s="'+i+'"><span>Én side og top<small>fx mod naboen</small></span></label>' +
+          '<label><input type="radio" name="s'+i+'" value="2" '+(h.sides===2?'checked':'')+' data-s="'+i+'"><span>Begge sider og top<small>fritstående</small></span></label></div></div>' +
+        '<div class="hedge-sum"><span>'+h.len+' m × '+rate(h)+' kr.</span><b>'+fmt(price(h))+'</b></div>';
+      hedgesEl.appendChild(el);
+    });
+    total();
+  }
+  function rate(h){ return P[h.height + '_' + h.sides]; }
+  function price(h){ return h.len * rate(h); }
+
+  function total(){
+    var sum = 0, lines = [], totalLen = 0;
+    hedges.forEach(function(h,i){ sum += price(h); totalLen += h.len; lines.push({l:'Hæk '+(i+1)+': '+h.len+' m, '+(h.height==='under'?'under':'over')+' 2 m, '+(h.sides===1?'én side':'begge sider'), v:price(h)}); });
+    if (sum < P.minimum) { lines.push({l:'Mindstepris pr. besøg', v:P.minimum - sum}); sum = P.minimum; }
+    var waste = document.getElementById('waste').checked;
+    if (waste) { lines.push({l:'Bortkørsel af afklip', v:P.waste}); sum += P.waste; }
+    document.getElementById('totalAmt').textContent = fmt(sum);
+    var ul = document.getElementById('breakdown');
+    ul.innerHTML = lines.map(function(x){ return '<li><span>'+x.l+'</span><span>'+fmt(x.v)+'</span></li>'; }).join('');
+    if (totalLen > P.bigJob) ul.innerHTML += '<li class="note">Over '+P.bigJob+' m: vi kommer gerne forbi og giver en fast pris, ofte lavere end estimatet.</li>';
+    return sum;
+  }
+
+  hedgesEl.addEventListener('input', function(e){
+    var t = e.target, i;
+    if (t.dataset.len !== undefined || t.dataset.lennum !== undefined) {
+      i = +(t.dataset.len !== undefined ? t.dataset.len : t.dataset.lennum);
+      var v = Math.max(1, Math.min(P.maxLen, parseInt(t.value,10) || 1));
+      hedges[i].len = v;
+      var box = t.closest('.hedge');
+      box.querySelector('[data-len]').value = v;
+      if (t.dataset.lennum === undefined) box.querySelector('[data-lennum]').value = v;
+      box.querySelector('.hedge-sum').innerHTML = '<span>'+v+' m × '+rate(hedges[i])+' kr.</span><b>'+fmt(price(hedges[i]))+'</b>';
+      total();
+    }
+  });
+  hedgesEl.addEventListener('change', function(e){
+    var t = e.target;
+    if (t.dataset.h !== undefined) { hedges[+t.dataset.h].height = t.value; render(); }
+    if (t.dataset.s !== undefined) { hedges[+t.dataset.s].sides = +t.value; render(); }
+  });
+  hedgesEl.addEventListener('click', function(e){
+    var b = e.target.closest('[data-remove]');
+    if (b) { hedges.splice(+b.dataset.remove, 1); render(); }
+  });
+  document.getElementById('addHedge').addEventListener('click', function(){
+    hedges.push({len:10, height:'under', sides:1}); render();
+    var last = hedgesEl.lastElementChild; if (last) last.querySelector('[data-lennum]').focus();
+  });
+  document.getElementById('waste').addEventListener('change', total);
+
+  // Demo submit: the real site posts to WordPress, which recalculates the price,
+  // emails Tobias from a fixed address, and sends the customer a copy.
+  document.getElementById('beregn').addEventListener('submit', function(e){
+    e.preventDefault();
+    var f = e.target;
+    if (f.website.value) return; // honeypot
+    var req = ['name','phone','address','email'], ok = true;
+    req.forEach(function(n){ var el = f[n]; if (!el.value.trim()) { ok = false; el.setAttribute('aria-invalid','true'); el.style.borderColor = '#C0392B'; } else { el.removeAttribute('aria-invalid'); el.style.borderColor=''; } });
+    if (!ok) { f.querySelector('[aria-invalid]').focus(); return; }
+    var sum = total();
+    document.getElementById('sentText').textContent = 'Vi har sendt en kopi af dit estimat på ' + fmt(sum) + ' til ' + f.email.value.trim() + '. Tobias ringer til dig på ' + f.phone.value.trim() + ' inden for én hverdag.';
+    document.getElementById('req').removeAttribute('open');
+    document.getElementById('req').style.display = 'none';
+    document.getElementById('sent').classList.add('show');
+    document.getElementById('sent').scrollIntoView({block:'nearest', behavior:'smooth'});
+  });
+
+  hedges.push({len:25, height:'under', sides:1});
+  render();
+})();
+</script>
+</body>
+</html>
