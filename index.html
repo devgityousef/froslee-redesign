@@ -96,9 +96,9 @@
           <div class="in"><label for="address">Adresse</label><input id="address" name="address" autocomplete="street-address" placeholder="Vej, nr. og by" required></div>
           <div class="in"><label for="email">E-mail</label><input id="email" name="email" type="email" autocomplete="email" required><small>Du får en kopi af dit estimat på mail.</small></div>
           <div class="in"><span class="lbl-l">Hvornår passer det?</span><div class="book" data-book="calc"></div></div>
-          <div class="in"><label for="photo">Billede af hækken (valgfrit)</label><input id="photo" name="photo" type="file" accept="image/*" multiple><small>Så kan vi give en fast pris uden at komme forbi først.</small></div>
+          <p style="font-size:14px;color:var(--ink-2);margin:0">Har du et billede af hækken? Send det på sms til <a href="sms:+4529744144">29 74 41 44</a>, så kan vi give en fast pris uden at komme forbi først.</p>
           <div class="in"><label for="msg">Er der noget, vi skal vide?</label><textarea id="msg" name="msg" rows="2" placeholder="Fx svær adgang, hund i haven, eller at hækken er meget tilgroet"></textarea></div>
-          <div class="hp" aria-hidden="true"><label>Lad feltet stå tomt<input name="website" tabindex="-1" autocomplete="off"></label></div>
+          <div class="hp" aria-hidden="true"><label>Lad feltet stå tomt<input name="_gotcha" tabindex="-1" autocomplete="off"></label></div>
           <button type="submit" class="btn btn-dark btn-block">Send forespørgsel</button>
           <p style="font-size:13px;color:var(--ink-2)">Uforpligtende. Vi ringer tilbage inden for én hverdag. Dine oplysninger bruges kun til at svare dig, se <a href="privatliv.html">privatlivspolitik</a>.</p>
         </div>
@@ -170,7 +170,7 @@
       </div>
       <div class="in"><label for="baddress">Adresse</label><input id="baddress" name="address" autocomplete="street-address" placeholder="Vej, nr. og by" required></div>
       <div class="in"><label for="bmsg">Hvad skal klippes?</label><textarea id="bmsg" name="msg" rows="2" placeholder="Fx samme hæk som sidste år, cirka 30 meter, begge sider"></textarea></div>
-      <div class="hp" aria-hidden="true"><label>Lad feltet stå tomt<input name="website" tabindex="-1" autocomplete="off"></label></div>
+      <div class="hp" aria-hidden="true"><label>Lad feltet stå tomt<input name="_gotcha" tabindex="-1" autocomplete="off"></label></div>
       <button type="submit" class="btn btn-dark btn-block">Book tiden</button>
       <p style="font-size:13px;color:var(--ink-2);margin:0">Uforpligtende indtil Tobias har bekræftet. Prisen følger prislisten ovenfor. Dine oplysninger bruges kun til at svare dig, se <a href="privatliv.html">privatlivspolitik</a>.</p>
       <div class="sent" id="bookSent" role="status" style="margin-top:0">
@@ -399,35 +399,70 @@
   document.querySelectorAll('[data-book]').forEach(function(el){ bookings[el.dataset.book] = makeBooking(el); });
 
   function validate(f, fields){
-    if (f.website.value) return false; // honeypot
+    if (f._gotcha.value) return false; // honeypot
     var ok = true;
     fields.forEach(function(n){ var el = f[n]; if (!el.value.trim()) { ok = false; el.setAttribute('aria-invalid','true'); el.style.borderColor = '#C0392B'; } else { el.removeAttribute('aria-invalid'); el.style.borderColor=''; } });
     if (!ok) f.querySelector('[aria-invalid]').focus();
     return ok;
   }
 
-  // Demo submit: the real site posts to WordPress, which recalculates the price,
-  // emails Tobias from a fixed address, and sends the customer a copy.
+  // Sending: both forms post JSON to Formspree, which emails the recipient set on the form.
+  var ENDPOINT = 'https://formspree.io/f/xvkzejkj';
+  function send(payload, btn, onOk, onFail){
+    var label = btn.textContent; btn.disabled = true; btn.textContent = 'Sender…';
+    fetch(ENDPOINT, {method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'}, body:JSON.stringify(payload)})
+      .then(function(r){ if (!r.ok) throw new Error(r.status); onOk(); })
+      .catch(function(){ btn.disabled = false; btn.textContent = label; onFail(); });
+  }
+  function failNote(f){
+    var p = f.querySelector('.fail');
+    if (!p) { p = document.createElement('p'); p.className = 'fail'; p.style.cssText = 'color:#C0392B;font-size:14px;margin:0'; f.querySelector('button[type=submit]').insertAdjacentElement('afterend', p); }
+    p.textContent = 'Det lykkedes ikke at sende. Prøv igen, eller ring til os på 29 74 41 44.';
+  }
+  function hedgeLines(){
+    return hedges.map(function(h,i){ return 'Hæk ' + (i+1) + ': ' + h.len + ' m, ' + (h.height==='under'?'under':'over') + ' 2 m, ' + (h.sides===1?'én side':'begge sider') + ' = ' + fmt(price(h)); }).join('\n');
+  }
+
   document.getElementById('beregn').addEventListener('submit', function(e){
     e.preventDefault();
     var f = e.target;
     if (!validate(f, ['name','phone','address','email'])) return;
     var sum = total();
-    document.getElementById('sentText').textContent = 'Vi har sendt en kopi af dit estimat på ' + fmt(sum) + ' til ' + f.email.value.trim() + '. Ønsket tid: ' + bookings.calc.getText() + '. Tobias ringer til dig på ' + f.phone.value.trim() + ' inden for én hverdag.';
-    document.getElementById('req').removeAttribute('open');
-    document.getElementById('req').style.display = 'none';
-    document.getElementById('sent').classList.add('show');
-    document.getElementById('sent').scrollIntoView({block:'nearest', behavior:'smooth'});
+    var when = bookings.calc.getText();
+    var payload = {
+      _subject: 'Ny forespørgsel: ' + f.address.value.trim() + ' – ' + fmt(sum),
+      _replyto: f.email.value.trim(),
+      type: 'Prisforespørgsel',
+      navn: f.name.value.trim(), telefon: f.phone.value.trim(), adresse: f.address.value.trim(), email: f.email.value.trim(),
+      estimat: fmt(sum), haekke: hedgeLines(), bortkoersel: document.getElementById('waste').checked ? 'Ja (+450 kr.)' : 'Nej',
+      oensket_tid: when, besked: f.msg.value.trim()
+    };
+    send(payload, f.querySelector('button[type=submit]'), function(){
+      document.getElementById('sentText').textContent = 'Vi har sendt en kopi af dit estimat på ' + fmt(sum) + ' til ' + f.email.value.trim() + '. Ønsket tid: ' + when + '. Tobias ringer til dig på ' + f.phone.value.trim() + ' inden for én hverdag.';
+      document.getElementById('req').removeAttribute('open');
+      document.getElementById('req').style.display = 'none';
+      document.getElementById('sent').classList.add('show');
+      document.getElementById('sent').scrollIntoView({block:'nearest', behavior:'smooth'});
+    }, function(){ failNote(f); });
   });
 
   document.getElementById('bookForm').addEventListener('submit', function(e){
     e.preventDefault();
     var f = e.target;
     if (!validate(f, ['name','phone','address'])) return;
-    document.getElementById('bookSentText').textContent = 'Ønsket tid: ' + bookings.solo.getText() + '. Tobias bekræfter på sms til ' + f.phone.value.trim() + ' i dag eller i morgen. Adressen er ' + f.address.value.trim() + '.';
-    Array.prototype.forEach.call(f.querySelectorAll('.in, .book, .grid2, h3, button, p:not(#bookSentText)'), function(el){ if (!el.closest('.sent')) el.style.display = 'none'; });
-    document.getElementById('bookSent').classList.add('show');
-    document.getElementById('bookSent').scrollIntoView({block:'nearest', behavior:'smooth'});
+    var when = bookings.solo.getText();
+    var payload = {
+      _subject: 'Ny booking: ' + f.address.value.trim() + ' – ' + when,
+      type: 'Booking',
+      navn: f.name.value.trim(), telefon: f.phone.value.trim(), adresse: f.address.value.trim(),
+      oensket_tid: when, hvad_skal_klippes: f.msg.value.trim()
+    };
+    send(payload, f.querySelector('button[type=submit]'), function(){
+      document.getElementById('bookSentText').textContent = 'Ønsket tid: ' + when + '. Tobias bekræfter på sms til ' + f.phone.value.trim() + ' i dag eller i morgen. Adressen er ' + f.address.value.trim() + '.';
+      Array.prototype.forEach.call(f.querySelectorAll('.in, .book, .grid2, h3, button, p:not(#bookSentText)'), function(el){ if (!el.closest('.sent')) el.style.display = 'none'; });
+      document.getElementById('bookSent').classList.add('show');
+      document.getElementById('bookSent').scrollIntoView({block:'nearest', behavior:'smooth'});
+    }, function(){ failNote(f); });
   });
 
   hedges.push({len:25, height:'under', sides:1});
