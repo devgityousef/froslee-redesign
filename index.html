@@ -94,7 +94,7 @@
             <div class="in"><label for="phone">Telefon</label><input id="phone" name="phone" type="tel" autocomplete="tel" required></div>
           </div>
           <div class="in"><label for="address">Adresse</label><input id="address" name="address" autocomplete="street-address" placeholder="Vej, nr. og by" required></div>
-          <div class="in"><label for="email">E-mail</label><input id="email" name="email" type="email" autocomplete="email" required><small>Du får en kopi af dit estimat på mail.</small></div>
+          <div class="in"><label for="email">E-mail</label><input id="email" name="email" type="email" autocomplete="email" required><small>Så kan vi også svare dig på mail.</small></div>
           <div class="in"><span class="lbl-l">Hvornår passer det?</span><div class="book" data-book="calc"></div></div>
           <p style="font-size:14px;color:var(--ink-2);margin:0">Har du et billede af hækken? Send det på sms til <a href="sms:+4529744144">29 74 41 44</a>, så kan vi give en fast pris uden at komme forbi først.</p>
           <div class="in"><label for="msg">Er der noget, vi skal vide?</label><textarea id="msg" name="msg" rows="2" placeholder="Fx svær adgang, hund i haven, eller at hækken er meget tilgroet"></textarea></div>
@@ -185,7 +185,7 @@
   <div class="wrap">
     <div class="sec-head">
       <h2>Det siger kunderne</h2>
-      <p class="lede">Anmeldelser fra Google og Trustpilot.</p>
+      <p class="lede">5,0 ud af 5 på Google. <a href="https://maps.google.com/?cid=10139848527342528436" rel="noopener">Læs alle anmeldelser</a>.</p>
     </div>
     <div class="rev-grid">
       <article class="rev">
@@ -204,7 +204,7 @@
         <footer><b>Daniel Rysgaard</b>Gistrup</footer>
       </article>
     </div>
-    <p style="margin-top:28px"><a class="btn btn-dark" href="arbejde.html">Se vores arbejde</a></p>
+    <p style="margin-top:28px;display:flex;gap:12px;flex-wrap:wrap"><a class="btn btn-dark" href="arbejde.html">Se vores arbejde</a><a class="btn btn-ghost" href="https://maps.google.com/?cid=10139848527342528436" rel="noopener">Skriv en anmeldelse på Google</a></p>
   </div>
 </section>
 
@@ -438,7 +438,7 @@
       oensket_tid: when, besked: f.msg.value.trim()
     };
     send(payload, f.querySelector('button[type=submit]'), function(){
-      document.getElementById('sentText').textContent = 'Vi har sendt en kopi af dit estimat på ' + fmt(sum) + ' til ' + f.email.value.trim() + '. Ønsket tid: ' + when + '. Tobias ringer til dig på ' + f.phone.value.trim() + ' inden for én hverdag.';
+      document.getElementById('sentText').textContent = 'Vi har modtaget din forespørgsel på ' + fmt(sum) + '. Ønsket tid: ' + when + '. Tobias ringer til dig på ' + f.phone.value.trim() + ' inden for én hverdag.';
       document.getElementById('req').removeAttribute('open');
       document.getElementById('req').style.display = 'none';
       document.getElementById('sent').classList.add('show');
