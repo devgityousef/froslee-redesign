@@ -272,3 +272,8 @@
   .foot-min a{color:#fff;text-decoration:none;font-weight:600}
   .foot-min a:hover{text-decoration:underline;text-decoration-color:var(--snor)}
   .foot-min span{display:block}
+
+/* Work page gallery */
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px}
+.gallery img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:var(--radius-m);display:block;background:var(--leaf)}
+@media (max-width:760px){.gallery{grid-template-columns:1fr 1fr;gap:10px}}
