@@ -346,8 +346,10 @@
   });
   document.getElementById('waste').addEventListener('change', total);
 
-  // Booking picker: the next 12 weekdays and three time options.
-  // The real site reads free days from the booking plugin; here every weekday is open.
+  // Booking picker: the next 12 open weekdays and three time options.
+  // Closed days come from lukkedage.json (single dates + fixed weekdays), so Tobias
+  // can block a day off or a fully booked day without touching the page.
+  var CLOSED = {datoer: [], ugedage: []};
   var SLOTS = [
     {id:'am',  label:'Formiddag',   hint:'8 til 12'},
     {id:'pm',  label:'Eftermiddag', hint:'12 til 16'},
@@ -357,9 +359,14 @@
   var monShort = new Intl.DateTimeFormat('da-DK', {month:'short'});
   var dayLong  = new Intl.DateTimeFormat('da-DK', {weekday:'long', day:'numeric', month:'long'});
   function iso(d){ return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); }
+  function isOpen(d){
+    if (d.getDay() === 0 || d.getDay() === 6) return false;
+    if (CLOSED.ugedage.indexOf(d.getDay()) !== -1) return false;
+    return CLOSED.datoer.indexOf(iso(d)) === -1;
+  }
   function weekdays(n){
-    var out = [], d = new Date(); d.setHours(0,0,0,0);
-    while (out.length < n) { d.setDate(d.getDate()+1); if (d.getDay() !== 0 && d.getDay() !== 6) out.push(new Date(d)); }
+    var out = [], d = new Date(), guard = 0; d.setHours(0,0,0,0);
+    while (out.length < n && guard++ < 60) { d.setDate(d.getDate()+1); if (isOpen(d)) out.push(new Date(d)); }
     return out;
   }
   function makeBooking(root){
@@ -396,7 +403,16 @@
     return root;
   }
   var bookings = {};
-  document.querySelectorAll('[data-book]').forEach(function(el){ bookings[el.dataset.book] = makeBooking(el); });
+  function buildBookings(){
+    document.querySelectorAll('[data-book]').forEach(function(el){ bookings[el.dataset.book] = makeBooking(el); });
+  }
+  buildBookings();
+  fetch('lukkedage.json', {cache: 'no-store'}).then(function(r){ return r.ok ? r.json() : null; }).then(function(j){
+    if (!j) return;
+    CLOSED.datoer = Array.isArray(j.datoer) ? j.datoer : [];
+    CLOSED.ugedage = Array.isArray(j.ugedage) ? j.ugedage.map(Number) : [];
+    if (CLOSED.datoer.length || CLOSED.ugedage.length) buildBookings();
+  }).catch(function(){});
 
   function validate(f, fields){
     if (f._gotcha.value) return false; // honeypot

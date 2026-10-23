@@ -1,0 +1,5 @@
+{
+  "_hjælp": "Dage, der ikke kan bookes på hjemmesiden. 'datoer' er enkeltdage som ÅÅÅÅ-MM-DD. 'ugedage' er faste fridage: 0 = søndag, 1 = mandag ... 6 = lørdag. Lørdag og søndag er altid lukket.",
+  "datoer": [],
+  "ugedage": []
+}
