@@ -50,7 +50,7 @@
 
 <section>
   <div class="wrap">
-    <div class="work">
+    <div class="work" id="foer-efter">
       <figure>
         <div class="compare" style="--pos:50%">
           <img class="after" src="img/haek5-efter.jpg" alt="Havehæk efter klipning: flad top og lige sider hele vejen rundt om plænen">
@@ -91,7 +91,7 @@
         </div>
         <figcaption><b>Bøgehæk ud over fortovet</b>Sommerens skud hang en halv meter ud over fliserne. Siden klippet tilbage i én lige flade, så folk kan gå forbi igen.</figcaption>
       </figure>
-      <figure>
+      <figure id="to-haekke">
         <div class="pair">
           <img loading="lazy" src="img/galleri-2.jpg" alt="Lang bøgehæk langs en plæne, klippet med lige side og flad top">
           <img loading="lazy" src="img/galleri-1.jpg" alt="Høj hæk med skarp kant langs en stor have">
@@ -99,7 +99,7 @@
         <figcaption><b>To lange hække fra sæsonen</b>Begge klippet i snor, lige side og flad top hele vejen. Afklippet samlet og kørt væk samme dag.</figcaption>
       </figure>
     </div>
-    <div class="sec-head" style="margin-top:56px">
+    <div class="sec-head" id="galleri" style="margin-top:56px">
       <h2>Flere færdige hække</h2>
       <p class="lede">Fra sæsonen. Alle klippet af Tobias, alle i Aalborg og omegn.</p>
     </div>
@@ -137,10 +137,12 @@
 </div>
 
 <script>
-  document.querySelectorAll('.compare').forEach(function(c){
-    var r = c.querySelector('input');
-    r.addEventListener('input', function(){ c.style.setProperty('--pos', r.value + '%'); });
+  // Before/after sliders. Listens on the document, so sliders that content.js renders later work too.
+  document.addEventListener('input', function(e){
+    var r = e.target, c = r && r.closest ? r.closest('.compare') : null;
+    if (c && r.type === 'range') c.style.setProperty('--pos', r.value + '%');
   });
 </script>
+<script src="/content.js?v=202610250230" defer></script>
 </body>
 </html>
