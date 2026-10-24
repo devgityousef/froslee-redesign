@@ -1,46 +1,95 @@
 {
   "_hjælp": "Billeder og tekster på forsiden, Vores arbejde og Om os. Rettes nemmest på froslee.dk/admin. Billedstier er relative, fx img/galleri-1.jpg.",
   "forside": {
-    "foto": { "src": "img/tobias-arbejde.jpg", "alt": "Tobias Froslee klipper toppen af en høj hæk med stangsaks" }
+    "foto": {
+      "src": "img/tobias-arbejde.jpg",
+      "alt": "Tobias Froslee klipper toppen af en høj hæk med stangsaks"
+    }
   },
   "foerEfter": [
     {
       "titel": "Havehæk hele vejen rundt",
       "tekst": "Toppen var blevet rund og pjusket efter en sæsons vækst. Klippet flad og lige i siderne, så haven fik sine linjer tilbage.",
-      "foer": { "src": "img/haek5-foer.jpg", "alt": "Havehæk før klipning: rund og pjusket i toppen" },
-      "efter": { "src": "img/haek5-efter.jpg", "alt": "Havehæk efter klipning: flad top og lige sider hele vejen rundt om plænen" }
+      "foer": {
+        "src": "img/haek5-foer.jpg",
+        "alt": "Havehæk før klipning: rund og pjusket i toppen"
+      },
+      "efter": {
+        "src": "img/haek5-efter.jpg",
+        "alt": "Havehæk efter klipning: flad top og lige sider hele vejen rundt om plænen"
+      }
     },
     {
       "titel": "Tilgroet hæk, klippet på begge sider og toppen",
       "tekst": "Hækken havde fået lov at vokse en hel sæson. Klippet tilbage til rette linjer, afklip kørt væk.",
-      "foer": { "src": "img/haek1-foer.jpg", "alt": "Hækken før klipning: bred og uregelmæssig" },
-      "efter": { "src": "img/haek1-efter.jpg", "alt": "Hækken efter klipning: lige top og glatte sider" }
+      "foer": {
+        "src": "img/haek1-foer.jpg",
+        "alt": "Hækken før klipning: bred og uregelmæssig"
+      },
+      "efter": {
+        "src": "img/haek1-efter.jpg",
+        "alt": "Hækken efter klipning: lige top og glatte sider"
+      }
     },
     {
       "titel": "Høj hæk, klippet fra platform",
       "tekst": "Over 2 meter, så toppen er taget fra platform for at få en lige kant hele vejen.",
-      "foer": { "src": "img/haek2-foer.jpg", "alt": "Høj hæk før klipning" },
-      "efter": { "src": "img/haek2-efter.jpg", "alt": "Høj hæk efter klipning med skarp overkant" }
+      "foer": {
+        "src": "img/haek2-foer.jpg",
+        "alt": "Høj hæk før klipning"
+      },
+      "efter": {
+        "src": "img/haek2-efter.jpg",
+        "alt": "Høj hæk efter klipning med skarp overkant"
+      }
     },
     {
       "titel": "Bøgehæk ud over fortovet",
       "tekst": "Sommerens skud hang en halv meter ud over fliserne. Siden klippet tilbage i én lige flade, så folk kan gå forbi igen.",
-      "foer": { "src": "img/haek3-foer.jpg", "alt": "Bøgehæk langs vejen før klipning med lange gule skud ud over fortovet" },
-      "efter": { "src": "img/haek3-efter.jpg", "alt": "Bøgehæk langs vejen efter klipning, siden står lige og fortovet er frit" }
+      "foer": {
+        "src": "img/haek3-foer.jpg",
+        "alt": "Bøgehæk langs vejen før klipning med lange gule skud ud over fortovet"
+      },
+      "efter": {
+        "src": "img/haek3-efter.jpg",
+        "alt": "Bøgehæk langs vejen efter klipning, siden står lige og fortovet er frit"
+      }
     }
   ],
   "par": {
     "titel": "To lange hække fra sæsonen",
     "tekst": "Begge klippet i snor, lige side og flad top hele vejen. Afklippet samlet og kørt væk samme dag.",
-    "venstre": { "src": "img/galleri-2.jpg", "alt": "Lang bøgehæk langs en plæne, klippet med lige side og flad top" },
-    "hoejre": { "src": "img/galleri-1.jpg", "alt": "Høj hæk med skarp kant langs en stor have" }
+    "venstre": {
+      "src": "img/galleri-2.jpg",
+      "alt": "Lang bøgehæk langs en plæne, klippet med lige side og flad top"
+    },
+    "hoejre": {
+      "src": "img/galleri-1.jpg",
+      "alt": "Høj hæk med skarp kant langs en stor have"
+    }
   },
   "galleri": [
-    { "src": "img/galleri-4.jpg", "alt": "Skrå hæk langs en trappe, klippet i et plant forløb" },
-    { "src": "img/galleri-5.jpg", "alt": "Afklip samlet i sæk ved siden af en nyklippet hæk, klar til bortkørsel" }
+    {
+      "src": "img/galleri-4.jpg",
+      "alt": "Skrå hæk langs en trappe, klippet i et plant forløb"
+    },
+    {
+      "src": "img/galleri-5.jpg",
+      "alt": "Afklip samlet i sæk ved siden af en nyklippet hæk, klar til bortkørsel"
+    },
+    {
+      "src": "img/galleri-1792884545392.jpg",
+      "alt": "Testbillede fra admin"
+    }
   ],
   "omOs": {
-    "portraet": { "src": "img/tobias.jpg", "alt": "Tobias Froslee foran en nyklippet hæk" },
-    "arbejde": { "src": "img/tobias-arbejde.jpg", "alt": "Tobias Froslee klipper toppen af en høj hæk med stangsaks" }
+    "portraet": {
+      "src": "img/tobias.jpg",
+      "alt": "Tobias Froslee foran en nyklippet hæk"
+    },
+    "arbejde": {
+      "src": "img/tobias-arbejde.jpg",
+      "alt": "Tobias Froslee klipper toppen af en høj hæk med stangsaks"
+    }
   }
 }
