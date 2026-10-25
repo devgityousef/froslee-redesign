@@ -32,15 +32,15 @@
       }
     },
     {
-      "titel": "Høj hæk, klippet fra platform",
-      "tekst": "Over 2 meter, så toppen er taget fra platform for at få en lige kant hele vejen.",
+      "titel": "Overgang fra høj til lav hæk",
+      "tekst": "Her lavede vi en glidende overgang fra den høje til den lave hæk efter kundes ønske.",
       "foer": {
-        "src": "img/haek2-foer.jpg",
-        "alt": "Høj hæk før klipning"
+        "src": "img/foer-1792943709556.jpg",
+        "alt": ""
       },
       "efter": {
-        "src": "img/haek2-efter.jpg",
-        "alt": "Høj hæk efter klipning med skarp overkant"
+        "src": "img/efter-1792943720125.jpg",
+        "alt": ""
       }
     },
     {
