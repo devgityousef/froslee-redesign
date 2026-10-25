@@ -1,5 +1,5 @@
 {
-  "_hjælp": "Billeder og tekster på forsiden, Vores arbejde og Om os. Rettes nemmest på froslee.dk/admin. Billedstier er relative, fx img/galleri-1.jpg.",
+  "_hjælp": "Billeder og tekster på forsiden, Vores arbejde og Om os. Billedstier er relative, fx img/galleri-1.jpg.",
   "forside": {
     "foto": {
       "src": "img/tobias-arbejde.jpg",
